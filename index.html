@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -107,6 +108,34 @@ p{text-wrap:pretty}
   .banner-frame img{aspect-ratio:4/3;object-position:32% 42%}
 }
 
+
+/* Rotating headline word */
+.rotator{margin-top:16px;font-family:var(--display);font-size:clamp(17px,1.9vw,22px);font-weight:600;letter-spacing:-.02em;color:var(--muted);display:flex;align-items:baseline;gap:8px;flex-wrap:wrap}
+.rot-slot{position:relative;display:inline-block;color:var(--brine);overflow:hidden;vertical-align:bottom}
+.rot-word{display:inline-block;animation:rotIn .5s cubic-bezier(.2,.8,.3,1) both}
+.rot-word.out{animation:rotOut .38s cubic-bezier(.5,0,.7,.2) both}
+@keyframes rotIn{from{transform:translateY(102%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes rotOut{from{transform:translateY(0);opacity:1}to{transform:translateY(-102%);opacity:0}}
+
+/* Counter band */
+.counters{background:var(--ink);color:#fff;padding:clamp(34px,4.4vw,58px) 0}
+.count-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:26px}
+.count{border-left:2px solid rgba(187,217,245,.22);padding-left:20px}
+.count b{display:block;font-family:var(--display);font-size:clamp(30px,3.7vw,48px);font-weight:800;letter-spacing:-.04em;line-height:1;font-variant-numeric:tabular-nums}
+.count span{display:block;margin-top:9px;font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:rgba(187,217,245,.66)}
+@media(max-width:820px){.count-grid{grid-template-columns:1fr 1fr;gap:22px}}
+@media(max-width:430px){.count-grid{grid-template-columns:1fr}.count{padding-left:16px}}
+
+/* Nav link underline */
+.nav-links a{position:relative}
+.nav-links a::after{content:"";position:absolute;left:0;right:0;bottom:-5px;height:2px;background:var(--brine);border-radius:2px;transform:scaleX(0);transform-origin:right;transition:transform .28s cubic-bezier(.2,.8,.3,1)}
+.nav-links a:hover::after{transform:scaleX(1);transform-origin:left}
+
+/* Buttons get a sheen on hover */
+.btn{position:relative;overflow:hidden}
+.btn::before{content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;background:linear-gradient(105deg,transparent,rgba(255,255,255,.32),transparent);transform:skewX(-18deg);transition:left .55s ease}
+.btn:hover::before{left:130%}
+
 /* Ticker */
 .ticker{background:var(--ink);color:var(--mint-soft);overflow:hidden;padding:15px 0}
 .ticker-track{display:flex;gap:56px;width:max-content;animation:roll 34s linear infinite;font-family:var(--mono);font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;white-space:nowrap}
@@ -156,6 +185,18 @@ section{padding:clamp(58px,7vw,100px) 0}
 .pos-card li{display:flex;gap:9px;align-items:flex-start;color:var(--ink)}
 .pos-card li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--brine);margin-top:8px;flex:none}
 
+
+/* Sheen sweep on cards, same as the buttons */
+.svc,.ind-card,.pos-card{position:relative;overflow:hidden;isolation:isolate}
+.svc::before,.ind-card::before,.pos-card::before{
+  content:"";position:absolute;top:0;left:-70%;width:45%;height:100%;z-index:4;pointer-events:none;
+  background:linear-gradient(105deg,transparent,rgba(255,255,255,.55),transparent);
+  transform:skewX(-18deg);transition:left .65s ease}
+.ind-card::before{background:linear-gradient(105deg,transparent,rgba(255,255,255,.38),transparent)}
+.svc:hover::before,.ind-card:hover::before,.pos-card:hover::before{left:130%}
+.pos-card{transition:transform .25s ease,box-shadow .25s ease,border-color .25s}
+.pos-card:hover{transform:translateY(-5px);box-shadow:0 26px 44px -30px rgba(13,37,69,.4);border-color:var(--brine)}
+
 /* Pricing */
 .price-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:20px}
 .price{background:var(--white);border:1px solid var(--line);border-radius:var(--radius);padding:30px 26px;display:flex;flex-direction:column}
@@ -192,16 +233,49 @@ section{padding:clamp(58px,7vw,100px) 0}
 .step p{font-size:15px;color:var(--muted);margin-top:10px}
 .step .when{font-family:var(--mono);font-size:11.5px;color:var(--brine);margin-top:16px;letter-spacing:.06em}
 
-/* Quote */
-.quote-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:clamp(28px,5vw,56px);align-items:center}
-.quote{background:var(--white);border:1px solid var(--line);border-left:4px solid var(--amber);border-radius:var(--radius);padding:clamp(28px,4vw,44px)}
-.quote blockquote{font-family:var(--display);font-size:clamp(20px,2.3vw,28px);line-height:1.3;letter-spacing:-.025em;font-weight:600}
-.quote footer{margin-top:24px;font-size:14px;color:var(--muted);display:flex;align-items:center;gap:12px}
 .avatar{width:42px;height:42px;border-radius:50%;background:var(--brine);color:var(--mint);display:grid;place-items:center;font-family:var(--mono);font-size:13px;flex:none}
-.stat-col{display:flex;flex-direction:column;gap:14px}
-.stat{background:var(--mint-soft);border-radius:var(--radius);padding:24px}
-.stat b{font-family:var(--display);font-size:clamp(28px,3.2vw,40px);font-weight:800;letter-spacing:-.04em;display:block;color:var(--brine)}
-.stat span{font-family:var(--mono);font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+
+
+/* Testimonial burst */
+.burst{position:relative;height:760px;max-width:1080px;margin:0 auto}
+.burst-core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;width:280px;opacity:0;transition:opacity .5s ease .1s}
+.burst.go .burst-core{opacity:1}
+.burst-core b{display:block;font-family:var(--display);font-size:clamp(44px,5.4vw,68px);font-weight:800;letter-spacing:-.045em;color:var(--brine);line-height:1}
+.burst-core span{display:block;margin-top:10px;font-family:var(--mono);font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:var(--muted)}
+
+.bq{position:absolute;left:50%;top:50%;width:300px;margin:0;background:var(--white);border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px;
+  box-shadow:0 22px 40px -28px rgba(13,37,69,.5);
+  transform:translate(-50%,-50%) scale(.35);opacity:0;
+  transition:transform .85s cubic-bezier(.18,.82,.28,1),opacity .5s ease}
+.burst.go .bq{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(1);opacity:1}
+.bq blockquote{margin:0;font-size:15px;line-height:1.5;color:var(--ink)}
+.bq figcaption{display:flex;align-items:center;gap:11px;margin-top:15px;padding-top:13px;border-top:1px solid var(--line);font-size:12.5px;color:var(--muted);line-height:1.35}
+.bq figcaption strong{display:block;color:var(--ink);font-size:13.5px}
+.bq .avatar{width:36px;height:36px;font-size:12px}
+.bq:hover{border-color:var(--brine)}
+
+.blob{position:absolute;border-radius:50%;background:var(--mint);opacity:0;transition:opacity .8s ease,transform .8s ease}
+.burst.go .blob{opacity:.55}
+.b1{width:74px;height:74px;left:4%;top:16%}
+.b2{width:34px;height:34px;left:26%;top:6%;background:var(--amber);opacity:0}
+.burst.go .b2{opacity:.5}
+.b3{width:120px;height:120px;right:2%;top:8%}
+.b4{width:46px;height:46px;left:12%;bottom:12%}
+.b5{width:88px;height:88px;right:8%;bottom:6%}
+.b6{width:28px;height:28px;right:30%;top:44%;background:var(--flag-red);opacity:0}
+.burst.go .b6{opacity:.4}
+
+@media(max-width:1120px){
+  .burst{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:18px;max-width:760px}
+  .burst .blob{display:none}
+  .burst-core{position:static;transform:none;width:auto;grid-column:1/-1;margin-bottom:8px}
+  .bq{position:static;width:auto;transform:translateY(26px) scale(.96);opacity:0;
+      transition:transform .6s cubic-bezier(.2,.8,.3,1),opacity .5s ease}
+  .burst.go .bq{transform:none;opacity:1}
+}
+@media(max-width:640px){
+  .burst{grid-template-columns:1fr}
+}
 
 /* FAQ */
 .faq{border-top:1px solid var(--line)}
@@ -250,16 +324,34 @@ footer .mark span{color:var(--ink)}
   .burger{display:block}
 }
 @media(max-width:980px){
-  .hero-top,.shield-grid,.quote-grid,.cta-box,.f-grid{grid-template-columns:1fr}
+  .hero-top{grid-template-columns:1fr .82fr;gap:clamp(18px,3vw,32px)}
+  .hero h1{font-size:clamp(30px,5.2vw,44px);max-width:none}
+  .live-card{padding:16px 17px 15px;border-radius:15px}
+  .live-amt{font-size:clamp(26px,4vw,32px);margin:6px 0 4px}
+  .live-amt small{font-size:15px}
+  .live-top{font-size:8.5px;letter-spacing:.1em}
+  .status{font-size:10px}
+  .auth{font-size:8.5px;letter-spacing:.04em}
+  .hero-side{gap:16px}
+  .hero-actions{width:100%}
+  .hero-actions .btn{flex:1;justify-content:center;min-width:0;padding:13px 16px;font-size:14px}
+  .shield-grid,.cta-box,.f-grid{grid-template-columns:1fr}
   .pos-grid,.price-grid{grid-template-columns:1fr}
   .steps{grid-template-columns:1fr}
   .step{border-right:0;border-bottom:1px solid var(--line);padding:28px 0}
   .step:not(:first-child){padding-left:0}
   .sec-head{grid-template-columns:1fr}
   .perks{grid-template-columns:1fr 1fr;gap:13px 22px}
+}
+@media(max-width:620px){
+  .hero-top{grid-template-columns:1fr;gap:22px}
+  .hero h1{font-size:clamp(31px,8.4vw,40px)}
   .live-card{max-width:none}
-  .hero-actions{width:100%}
-  .hero-actions .btn{flex:1;justify-content:center;min-width:160px}
+  .live-amt{font-size:32px}
+  .live-top{font-size:9px}
+  .status{font-size:11px}
+  .auth{font-size:9px}
+  .hero-actions .btn{font-size:15px;padding:14px 18px}
 }
 @media(max-width:600px){
   .svc-grid,.ind-grid{grid-template-columns:1fr}
@@ -321,6 +413,7 @@ footer .mark span{color:var(--ink)}
       <div>
         <div class="eyebrow">Proudly serving merchants in all 50 states</div>
         <h1><span class="ln">Merchant Services</span> <span class="ln">and <em>Credit Card</em> Processing</span></h1>
+        <p class="rotator">Built for <span class="rot-slot" id="rotSlot"><span class="rot-word">nail salons</span></span></p>
       </div>
       <div class="hero-side">
         <div class="live-card">
@@ -350,6 +443,17 @@ footer .mark span{color:var(--ink)}
       <div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg>NO long-term contract</div>
       <div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg>NO upfront costs</div>
       <div><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><path d="M4 12l5 5L20 6"/></svg>Fast, easy approval</div>
+    </div>
+  </div>
+</section>
+
+<section class="counters" id="counters">
+  <div class="wrap">
+    <div class="count-grid">
+      <div class="count"><b data-to="18400" data-suffix="+">0</b><span>Merchants served</span></div>
+      <div class="count"><b data-prefix="$" data-to="2.4" data-dec="1" data-suffix="B+">0</b><span>Processed annually</span></div>
+      <div class="count"><b data-to="50" data-suffix="">0</b><span>States covered</span></div>
+      <div class="count"><b data-to="45" data-suffix=" sec">0</b><span>Median wait for a live rep</span></div>
     </div>
   </div>
 </section>
@@ -732,17 +836,49 @@ footer .mark span{color:var(--ink)}
   </div>
 </section>
 
-<!-- QUOTE -->
-<section style="padding-top:clamp(38px,5vw,64px)">
-  <div class="wrap quote-grid">
-    <div class="quote rv">
-      <blockquote>“I moved three salons over in one week. Dual pricing put the processing cost back where it belongs, the turn tracking ended the arguments about who was next, and when my terminal froze on a Saturday night somebody actually picked up.”</blockquote>
-      <footer><span class="avatar">TN</span><div><strong>Thanh Nguyen</strong> — Owner, Lotus Nails & Spa · Houston, TX<br>Processing since 2022</div></footer>
+<!-- TESTIMONIALS -->
+<section id="stories" style="padding-top:clamp(38px,5vw,64px)">
+  <div class="wrap">
+    <div class="sec-head rv">
+      <div>
+        <div class="eyebrow">In their words</div>
+        <h2>The people who switched, and what changed.</h2>
+      </div>
     </div>
-    <div class="stat-col rv">
-      <div class="stat"><b>50</b><span>States served</span></div>
-      <div class="stat"><b>5</b><span>Regional offices, coast to coast</span></div>
-      <div class="stat"><b>24/7</b><span>Live customer service, not a bot</span></div>
+
+    <div class="burst" id="burst">
+      <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
+      <span class="blob b4"></span><span class="blob b5"></span><span class="blob b6"></span>
+
+      <div class="burst-core">
+        <b>18,400+</b>
+        <span>Merchants processing with us</span>
+      </div>
+
+      <figure class="bq" style="--x:-372px;--y:-236px">
+        <blockquote>&ldquo;Dual pricing put the processing cost back where it belongs, and the turn tracking ended the arguments about who was next.&rdquo;</blockquote>
+        <figcaption><span class="avatar">TN</span><span><strong>Thanh Nguyen</strong>Lotus Nails &amp; Spa &middot; Houston, TX</span></figcaption>
+      </figure>
+      <figure class="bq" style="--x:372px;--y:-248px">
+        <blockquote>&ldquo;The free statement review found me $611 a month in savings, and the switch took one afternoon.&rdquo;</blockquote>
+        <figcaption><span class="avatar">MR</span><span><strong>Marisol Reyes</strong>Casa Reyes Taquer&iacute;a &middot; Arlington, TX</span></figcaption>
+      </figure>
+      <figure class="bq" style="--x:-382px;--y:26px">
+        <blockquote>&ldquo;Multi-lane checkout, live inventory, one deposit. My Sunday count finally matches the shelf.&rdquo;</blockquote>
+        <figcaption><span class="avatar">DK</span><span><strong>David Kwon</strong>Han&rsquo;s Market &middot; Norcross, GA</span></figcaption>
+      </figure>
+      <figure class="bq" style="--x:380px;--y:18px">
+        <blockquote>&ldquo;They handled the HIPAA side of the security program without me having to chase a single form.&rdquo;</blockquote>
+        <figcaption><span class="avatar">AB</span><span><strong>Angela Brooks</strong>Brookside Dental &middot; Ballwin, MO</span></figcaption>
+      </figure>
+      <figure class="bq" style="--x:-232px;--y:252px">
+        <blockquote>&ldquo;I invoice from the bay and it&rsquo;s paid before the customer picks up the car.&rdquo;</blockquote>
+        <figcaption><span class="avatar">LP</span><span><strong>Luis Pe&ntilde;a</strong>Pe&ntilde;a Auto Repair &middot; Westminster, CA</span></figcaption>
+      </figure>
+      <figure class="bq" style="--x:248px;--y:262px">
+        <blockquote>&ldquo;Gateway went live in a day, and when I called at 11pm on a Saturday a real person answered.&rdquo;</blockquote>
+        <figcaption><span class="avatar">SO</span><span><strong>Simone Okafor</strong>Urban Style Co. &middot; Houston, TX</span></figcaption>
+      </figure>
     </div>
   </div>
 </section>
@@ -896,6 +1032,70 @@ burger.addEventListener('click', () => setMenu(burger.getAttribute('aria-expande
 links.addEventListener('click', e => { if (e.target.closest('a')) setMenu(false); });
 addEventListener('keydown', e => { if (e.key === 'Escape') setMenu(false); });
 matchMedia('(min-width:1181px)').addEventListener('change', e => { if (e.matches) setMenu(false); });
+
+/* Rotating word in the headline */
+const ROT = ['nail salons','restaurants','retail shops','auto repair','medical offices','online stores'];
+const slot = document.getElementById('rotSlot');
+if (slot && !reduce) {
+  let ri = 0;
+  setInterval(() => {
+    const cur = slot.querySelector('.rot-word');
+    cur.classList.add('out');
+    ri = (ri + 1) % ROT.length;
+    const next = document.createElement('span');
+    next.className = 'rot-word';
+    next.textContent = ROT[ri];
+    slot.appendChild(next);
+    setTimeout(() => cur.remove(), 420);
+  }, 2600);
+}
+
+/* Count-up stats */
+const easeOut = t => 1 - Math.pow(1 - t, 3);
+function runCount(el){
+  const to = parseFloat(el.dataset.to);
+  const dec = parseInt(el.dataset.dec || 0, 10);
+  const pre = el.dataset.prefix || '';
+  const suf = el.dataset.suffix || '';
+  const fmt = v => pre + (dec ? v.toFixed(dec) : Math.round(v).toLocaleString('en-US')) + suf;
+  if (reduce) { el.textContent = fmt(to); return; }
+  const dur = 1500, t0 = performance.now();
+  (function step(now){
+    const p = Math.min((now - t0) / dur, 1);
+    el.textContent = fmt(to * easeOut(p));
+    if (p < 1) requestAnimationFrame(step);
+  })(t0);
+}
+const countObs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.querySelectorAll('b[data-to]').forEach(runCount); countObs.unobserve(e.target); }
+  });
+}, { threshold: .35 });
+const counters = document.getElementById('counters');
+if (counters) countObs.observe(counters);
+
+
+/* Testimonial burst — expands on the way down, collapses on the way back up */
+const burst = document.getElementById('burst');
+if (burst) {
+  const bqs = burst.querySelectorAll('.bq');
+  const setDelays = open => bqs.forEach((c, i) => {
+    // fan out in order, pull back in reverse order
+    c.style.transitionDelay = (open ? 90 + i * 85 : (bqs.length - 1 - i) * 55) + 'ms';
+  });
+  setDelays(true);
+  if (reduce) { burst.classList.add('go'); }
+  else {
+    new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        const open = e.isIntersecting;
+        if (open === burst.classList.contains('go')) return;
+        setDelays(open);
+        burst.classList.toggle('go', open);
+      });
+    }, { threshold: .25 }).observe(burst);
+  }
+}
 
 const ticker = document.getElementById('ticker');
 ticker.innerHTML += ticker.innerHTML;
