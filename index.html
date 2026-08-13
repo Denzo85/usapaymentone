@@ -190,14 +190,24 @@ p{text-wrap:pretty}
 
 
 /* ---- Scroll reveal system ---- */
-[data-rv]{opacity:0;will-change:opacity,transform;
-  transition:opacity .72s ease var(--d,0ms),transform .82s cubic-bezier(.2,.82,.25,1) var(--d,0ms)}
-[data-rv="up"]{transform:translateY(26px)}
-[data-rv="pop"]{transform:translateY(22px) scale(.965)}
-[data-rv="left"]{transform:translateX(-20px)}
-[data-rv="right"]{transform:translateX(20px)}
-[data-rv="wipe"]{transform:translateY(18px);clip-path:inset(0 0 42% 0)}
-[data-rv].in{opacity:1;transform:none;clip-path:inset(0 0 0 0)}
+/* Uses the standalone translate/scale properties, not transform, so card hover
+   transforms keep working while these stay applied — that lets reveals replay. */
+[data-rv]{opacity:0}
+[data-rv][data-rv]{
+  transition:opacity .7s ease var(--d,0ms),
+             translate .8s cubic-bezier(.2,.82,.25,1) var(--d,0ms),
+             scale .8s cubic-bezier(.2,.82,.25,1) var(--d,0ms),
+             clip-path .8s cubic-bezier(.2,.82,.25,1) var(--d,0ms),
+             transform .25s ease,
+             box-shadow .25s ease,
+             border-color .25s ease}
+[data-rv="up"]{translate:0 26px}
+[data-rv="pop"]{translate:0 22px;scale:.965}
+[data-rv="left"]{translate:-22px 0}
+[data-rv="right"]{translate:22px 0}
+[data-rv="wipe"]{translate:0 18px;clip-path:inset(0 0 42% 0)}
+[data-rv].in{opacity:1;translate:0 0;scale:1}
+[data-rv="wipe"].in{clip-path:inset(0 0 0 0)}
 
 /* section headings get a drawn rule */
 .sec-head .eyebrow::before{transform-origin:left;transform:scaleX(0);transition:transform .7s cubic-bezier(.2,.8,.3,1) .1s}
@@ -1137,22 +1147,21 @@ matchMedia('(min-width:1181px)').addEventListener('change', e => { if (e.matches
     document.querySelectorAll(sel).forEach((el, i) => {
       if (el.closest('.burst')) return;            // the cluster runs its own animation
       el.setAttribute('data-rv', variant);
-      el.style.setProperty('--d', (i % 6) * step + 'ms');
+      el.dataset.delay = (i % 6) * step + 'ms';
+      el.style.setProperty('--d', el.dataset.delay);
       items.push(el);
     });
   });
 
   if (reduce) { items.forEach(el => el.removeAttribute('data-rv')); return; }
 
-  const io = new IntersectionObserver((entries, obs) => {
+  const io = new IntersectionObserver(entries => {
     entries.forEach(e => {
-      if (!e.isIntersecting) return;
-      const el = e.target;
-      el.classList.add('in');
-      obs.unobserve(el);
-      // hand the element back to its own styles so hover transforms still work
-      const wait = parseInt(el.style.getPropertyValue('--d')) + 950;
-      setTimeout(() => { el.removeAttribute('data-rv'); el.style.removeProperty('--d'); }, wait);
+      const el = e.target, show = e.isIntersecting;
+      if (show === el.classList.contains('in')) return;
+      // stagger on the way in, snap back together on the way out
+      el.style.setProperty('--d', show ? el.dataset.delay : '0ms');
+      el.classList.toggle('in', show);
     });
   }, { threshold: .12, rootMargin: '0px 0px -6% 0px' });
 
