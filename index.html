@@ -138,9 +138,9 @@ p{text-wrap:pretty}
   100%{opacity:0;transform:translate(-50%,-50%) scale(1.85)}}
 /* the crop shifts on mobile, so the flare moves with it */
 @media(max-width:760px){
-  .secure-glow::before,.secure-glow::after{left:78.5%;top:19.3%}
-  .secure-glow::before{width:38%;height:25%}
-  .secure-glow::after{width:24%;height:16%;border-width:1.5px}
+  .secure-glow::before,.secure-glow::after{left:85.2%;top:19.3%}
+  .secure-glow::before{width:36%;height:25%}
+  .secure-glow::after{width:23%;height:16%;border-width:1.5px}
 }
 /* light sweep that runs once as the banner settles */
 .banner-media::after{
@@ -151,9 +151,9 @@ p{text-wrap:pretty}
 @keyframes bannerSweep{0%{opacity:1;transform:translateX(-120%) skewX(-12deg)}100%{opacity:0;transform:translateX(120%) skewX(-12deg)}}
 
 @media(max-width:760px){
-  /* 4:3 cropped the "Secure Payments" lockup off the right edge — 16:10 keeps it whole */
-  .banner-media{aspect-ratio:16/10}
-  .banner-media img{object-position:62% 42%}
+  /* wide enough that the "Secure Payments" lockup stays whole without losing the barista */
+  .banner-media{aspect-ratio:7/4}
+  .banner-media img{object-position:40% 42%}
 }
 @media(max-width:600px){
   .banner-media{border-radius:16px;clip-path:inset(6% 7% round 16px)}
